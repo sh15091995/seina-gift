@@ -24,6 +24,7 @@
             background-color: rgba(255, 204, 204, 0.5); /* Semi-transparent pink */
             position: relative;
             overflow: hidden;
+            margin-top: -30px;
         }
 
         #password-screen input {
@@ -72,7 +73,7 @@
             background: radial-gradient(circle, #fff 10%, #e63946 70%, #e63946);
             z-index: 10;
             opacity: 1;
-            transition: opacity 1.5s ease;
+            transition: opacity 1.0s ease;
         }
 
         /* Main Content */
@@ -96,7 +97,8 @@
             max-width: 400px;
             opacity: 0;
             transform: scale(0.8);
-            transition: opacity 1.5s ease, transform 1.5s ease;
+            transition: opacity 1.0s ease, transform 1.0s ease;
+            margin-top: -30px;
         }
 
         #fact-box img {
@@ -128,38 +130,7 @@
                 transform: translateY(100vh);
             }
         }
-                /* Mobile responsiveness */
-        @media screen and (max-width: 600px) {
-            #content {
-                justify-content: flex-start; /* Align closer to the top */
-                padding-top: 5%; /* Add spacing above content */
-            }
 
-            #fact-box {
-                margin-top: 0.5em; /* Reduce top margin */
-                width: 95%; /* Make fact-box fill most of the screen */
-                max-width: none; /* Remove fixed width */
-            }
-
-            #content h1 {
-                font-size: 1.5em; /* Adjust header font size for smaller screens */
-                margin: 0.5em 0; /* Add smaller margin */
-            }
-
-            #fact-box img {
-                max-width: 100%; /* Ensure images scale properly on small screens */
-                height: auto;
-            }
-
-            #password-screen input, #password-screen button {
-                font-size: 1em; /* Adjust input and button size */
-                padding: 0.5em 1em; /* Consistent padding */
-            }
-
-            .snowflake {
-                font-size: 12px; /* Smaller snowflakes for mobile */
-            }
-        }
     </style>
 </head>
 <body>
@@ -256,6 +227,9 @@
                     document.getElementById("christmas-transition").style.opacity = "0";
                     document.getElementById("content").style.display = "flex";
                     showRandomFact();
+                                // Call less frequently for performance
+                    setInterval(createSnowflakes, 1000); // Lower frequency
+                    createSnowflakes();
                 }, 1500);
             } else {
                 alert("Wrong password, try again!");
@@ -293,7 +267,7 @@
         }
 
         function createSnowflakes() {
-            const numberOfSnowflakes = 20; // Lowered from 50 for performance
+            const numberOfSnowflakes = 10; // Lowered from 50 for performance
             const snowflakeContainer = document.body;
 
             for (let i = 0; i < numberOfSnowflakes; i++) {
@@ -313,10 +287,6 @@
                 });
             }
         }
-
-        // Call less frequently for performance
-        setInterval(createSnowflakes, 1000); // Lower frequency
-        createSnowflakes();
 
         // Start Santa Animation
         moveSanta();
