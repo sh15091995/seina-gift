@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seina's Fandom Moment</title>
+    <style>
+        /* Basic Reset */
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: url('a.gif') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Password Screen */
+        #password-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(255, 204, 204, 0.5); /* Semi-transparent pink */
+            position: relative;
+            overflow: hidden;
+        }
+
+        #password-screen input {
+            padding: 0.5em;
+            margin: 0.5em 0;
+            font-size: 1em;
+            border: 2px solid #e63946;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        #password-screen button {
+            background-color: #e63946;
+            color: #fff;
+            padding: 0.5em 1em;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        /* Santa Container */
+        #santa-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .santa {
+            position: absolute;
+            width: 200px; /* Increased size */
+            height: auto;
+        }
+
+        /* Christmas Transition */
+        .christmas-transition {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #fff 10%, #e63946 70%, #e63946);
+            z-index: 10;
+            opacity: 1;
+            transition: opacity 1.5s ease;
+        }
+
+        /* Main Content */
+        #content {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #fef4e8;
+            text-align: center;
+        }
+
+        #fact-box {
+            margin-top: 1em;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            width: 90%;
+            max-width: 400px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+
+        #fact-box img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        #fact-box .fact-text {
+            padding: 1em;
+            font-size: 1.1em;
+            background: #f1f1f1;
+        }
+
+        /* Snowfall Background */
+
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            user-select: none;
+            pointer-events: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Password Screen with Flying Santa -->
+    <div id="password-screen">
+        <div id="santa-container">
+            <img src="santa.png" class="santa" alt="Flying Santa" id="santa">
+        </div>
+        <h2>What is the password, Seina?</h2>
+        <input type="password" id="password" placeholder="Enter the password">
+        <button onclick="checkPassword()">Submit</button>
+    </div>
+
+    <!-- Christmas Transition Effect -->
+    <div id="christmas-transition" class="christmas-transition" style="display: none;"></div>
+
+    <!-- Main Content -->
+    <div id="content">
+        <h1>Merry Christmas with Ben Shelton 🎄</h1>
+        <div id="fact-box">
+            <img id="fact-image" src="" alt="Ben Shelton">
+            <div class="fact-text" id="fact-text"></div>
+        </div>
+    </div>
+
+    <script>
+        const benFacts = {
+            1: "Born into Tennis: Ben Shelton was born on October 9, 2002, in Atlanta, Georgia, into a tennis family.",
+            2: "College Tennis Star: Ben played collegiate tennis at the University of Florida, where his father coached the team.",
+            3: "NCAA Champion: Shelton won the 2022 NCAA Division I Singles Championship.",
+            4: "Left-Handed Advantage: Ben plays left-handed, giving him a unique spin and edge in matches.",
+            5: "Incredible Serve: Shelton is known for his powerful serve, which regularly exceeds 140 mph.",
+            6: "US Open Breakthrough: In 2023, Ben reached the US Open semifinals, his best Grand Slam performance so far."
+        };
+
+        const imageFormats = ["jpg", "jpeg", "webp"];
+        let santa = document.getElementById("santa");
+        let container = document.getElementById("password-screen");
+        let velocityX = 3; // Horizontal speed
+        let velocityY = 2; // Vertical speed
+        let posX = 0;      // Initial X position
+        let posY = 0;      // Initial Y position
+
+        function moveSanta() {
+            const santaBox = santa.getBoundingClientRect();
+            const passwordBox = document.getElementById("password").getBoundingClientRect();
+
+            posX += velocityX;
+            posY += velocityY;
+
+            // Horizontal boundary checks
+            if (posX + santa.offsetWidth > window.innerWidth) {
+                posX = window.innerWidth - santa.offsetWidth; // Right boundary
+                velocityX = -velocityX;
+            }
+            if (posX < 0) {
+                posX = 0; // Left boundary
+                velocityX = -velocityX;
+            }
+
+            // Vertical boundary checks
+            if (posY + santa.offsetHeight > window.innerHeight) {
+                posY = window.innerHeight - santa.offsetHeight; // Bottom boundary
+                velocityY = -velocityY;
+            }
+            if (posY < 0) {
+                posY = 0; // Top boundary
+                velocityY = -velocityY;
+            }
+            // Check collision with password box
+            if (
+                santaBox.right > passwordBox.left &&
+                santaBox.left < passwordBox.right &&
+                santaBox.bottom > passwordBox.top &&
+                santaBox.top < passwordBox.bottom
+            ) {
+                // Reverse Santa's direction when colliding with the password area
+                velocityX = -velocityX;
+                // velocityY = -velocityY;
+            }
+
+
+            // Apply new position
+            santa.style.transform = `translate(${posX}px, ${posY}px)`;
+            requestAnimationFrame(moveSanta); // Continue animation
+        }
+
+        function checkPassword() {
+            const password = document.getElementById("password").value;
+            if (password === "SantaSuneet") {
+                document.getElementById("password-screen").style.display = "none";
+                document.getElementById("christmas-transition").style.display = "block";
+                setTimeout(() => {
+                    document.getElementById("christmas-transition").style.opacity = "0";
+                    document.getElementById("content").style.display = "flex";
+                    showRandomFact();
+                    // Create snowflakes continuously
+                    setInterval(createSnowflakes, 500);
+                    createSnowflakes();
+                }, 1500);
+            } else {
+                alert("Wrong password, try again!");
+            }
+        }
+
+        function showRandomFact() {
+            const randomKey = Math.floor(Math.random() * Object.keys(benFacts).length) + 1;
+            const factText = benFacts[randomKey];
+            const header = document.querySelector("#content h1");
+            let imageFound = false;
+
+            // Update header based on randomKey
+            if (randomKey <= 3) {
+                header.textContent = "Merry Christmas with Ben Shelton 🎄";
+            } else {
+                header.textContent = "Merry Christmas with Kendrick Lamar 🎄";
+            }
+
+            for (const format of imageFormats) {
+                const imgPath = `img/${randomKey}.${format}`;
+                const img = new Image();
+                img.src = imgPath;
+                img.onload = () => {
+                    if (!imageFound) {
+                        imageFound = true;
+                        document.getElementById("fact-image").src = imgPath;
+                        document.getElementById("fact-image").alt = `Ben Shelton ${randomKey}`;
+                        document.getElementById("fact-text").textContent = factText;
+                        document.getElementById("fact-box").style.opacity = "1";
+                        document.getElementById("fact-box").style.transform = "scale(1)";
+                    }
+                };
+            }
+        }
+
+        function createSnowflakes() {
+            const numberOfSnowflakes = 50; // Adjust the number of snowflakes
+            const snowflakeContainer = document.body;
+
+            for (let i = 0; i < numberOfSnowflakes; i++) {
+                const snowflake = document.createElement("div");
+                snowflake.className = "snowflake";
+                snowflake.innerHTML = "&#10052;"; // Snowflake symbol (❄)
+                snowflake.style.left = `${Math.random() * 100}vw`;
+                snowflake.style.animationDuration = `${3 + Math.random() * 5}s`;
+                snowflake.style.opacity = Math.random();
+                snowflake.style.fontSize = `${10 + Math.random() * 20}px`;
+
+                snowflakeContainer.appendChild(snowflake);
+
+                // Remove snowflake after animation ends
+                snowflake.addEventListener("animationend", () => {
+                    snowflake.remove();
+                });
+            }
+        }
+
+        // Start Santa Animation
+        moveSanta();
+    </script>
+</body>
+</html>
