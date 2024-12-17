@@ -77,16 +77,15 @@
         }
 
         /* Main Content */
-        #content {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #fef4e8;
-            text-align: center;
+        #content h1 {
+            position: relative; /* Ensures z-index works */
+            z-index: 2; /* Higher than other elements */
+            font-size: 2em;
+            margin-bottom: 0.5em; /* Spacing */
+            color: #e63946; /* Christmas red color for visibility */
         }
 
+        /* Fact Box Styling (for clarity) */
         #fact-box {
             margin-top: 1em;
             background-color: #fff;
@@ -98,7 +97,7 @@
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 1.0s ease, transform 1.0s ease;
-            margin-top: -80px;
+            z-index: 1; /* Ensure it stays below header */
         }
 
         #fact-box img {
