@@ -42,7 +42,8 @@
 
         #password-screen h2 {
             z-index: 2;
-            margin-top: 0.1em;
+            margin-top: -0.5em;
+            font-size: 0.6em; /* Scale down text size */
         }
 
         #password-screen input {
@@ -192,10 +193,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: 90vh;
             background-color: #fef4e8;
             text-align: center;
             transition: opacity 0.5s ease-in-out;
+            font-size: 0.8em; /* Scale down text size */
         }
 
         #content h1 {
@@ -213,10 +215,11 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             overflow: hidden;
-            width: 90%;
-            max-width: 400px;
+            width: 70%;
+            max-width: 350px;
             opacity: 0;
             transform: scale(0.8);
+            transform: scale(0.7); /* Scale down the size */
             transition: opacity 1.0s ease, transform 1.0s ease;
             z-index: 2;
         }
