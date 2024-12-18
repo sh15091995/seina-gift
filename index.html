@@ -395,12 +395,20 @@
         }
         let snowflakeInterval;
 
-        // Function to create snowflakes
+        let snowflakeCount = 0; // Initialize counter
+
         function createSnowflakes() {
-            const numberOfSnowflakes = 5; // Lowered from 50 for performance
+            const maxSnowflakes = 100; // Maximum number of snowflakes
             const snowflakeContainer = document.body;
 
-            for (let i = 0; i < numberOfSnowflakes; i++) {
+            if (snowflakeCount >= maxSnowflakes) {
+                // If the number of snowflakes exceeds the limit, reset the counter and remove all snowflakes
+                const existingSnowflakes = document.querySelectorAll(".snowflake");
+                existingSnowflakes.forEach(snowflake => snowflake.remove());
+                snowflakeCount = 0; // Reset the counter
+            }
+
+            for (let i = 0; i < 5; i++) { // Create 5 snowflakes at a time
                 const snowflake = document.createElement("div");
                 snowflake.className = "snowflake";
                 snowflake.innerHTML = "&#10052;"; // Snowflake symbol (❄)
@@ -415,6 +423,8 @@
                 snowflake.addEventListener("animationend", () => {
                     snowflake.remove();
                 });
+
+                snowflakeCount++; // Increment the counter
             }
         }
 
