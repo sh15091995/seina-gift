@@ -398,7 +398,7 @@
 
         // Function to create snowflakes
         function createSnowflakes() {
-            const numberOfSnowflakes = 10; // Lowered from 50 for performance
+            const numberOfSnowflakes = 5; // Lowered from 50 for performance
             const snowflakeContainer = document.body;
 
             for (let i = 0; i < numberOfSnowflakes; i++) {
@@ -421,7 +421,7 @@
 
         // Start snowflakes on the first screen and store interval ID
         function startSnowflakes() {
-            snowflakeInterval = setInterval(createSnowflakes, 1000); // Lower frequency
+            snowflakeInterval = setInterval(createSnowflakes, 500); // Lower frequency
             createSnowflakes(); // Create an initial batch
         }
 
