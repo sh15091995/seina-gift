@@ -359,23 +359,13 @@
             posY += velocityY;
 
             // Horizontal boundary checks
-            if (posX + santa.offsetWidth > window.innerWidth) {
-                posX = window.innerWidth - santa.offsetWidth; // Right boundary
-                velocityX = -velocityX;
-            }
-            if (posX < 0) {
-                posX = 0; // Left boundary
-                velocityX = -velocityX;
+            if (posX + santa.offsetWidth > window.innerWidth || posX < 0) {
+                velocityX = -velocityX; // Reverse the horizontal speed
             }
 
             // Vertical boundary checks
-            if (posY + santa.offsetHeight > window.innerHeight) {
-                posY = window.innerHeight - santa.offsetHeight; // Bottom boundary
-                velocityY = -velocityY;
-            }
-            if (posY < 0) {
-                posY = 0; // Top boundary
-                velocityY = -velocityY;
+            if (posY + santa.offsetHeight > window.innerHeight || posY < 0) {
+                velocityY = -velocityY; // Reverse the vertical speed
             }
 
             // Check collision with password box
@@ -385,13 +375,14 @@
                 santaBox.bottom > passwordBox.top &&
                 santaBox.top < passwordBox.bottom
             ) {
-                // Reverse Santa's direction when colliding with the password area
-                velocityX = -velocityX;
+                velocityX = -velocityX; // Reverse Santa's direction on collision with password box
             }
 
-            // Apply new position
+            // Apply the new position
             santa.style.transform = `translate(${posX}px, ${posY}px)`;
-            requestAnimationFrame(moveSanta); // Continue animation
+
+            // Continue animation
+            requestAnimationFrame(moveSanta);
         }
         let snowflakeInterval;
 
